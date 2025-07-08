@@ -14,6 +14,10 @@ API REST built with Spring Boot to analyze gender-related statistics in Argentin
 - Java 17
 - Spring Boot
 - Maven
+- Lombok
+- JUnit 5 + Mockito (Unit Tests)
+- Spring MockMvc (Integration Tests)
+- JaCoCo (Test Coverage Reporting)
 - RESTful API
 - Git / GitHub
 
@@ -23,10 +27,10 @@ API REST built with Spring Boot to analyze gender-related statistics in Argentin
    git clone https://github.com/iaraAlfaro/gender-gap-api.git
 
 2. Import as Maven project in IntelliJ or run:
-
-   `bash
+   bash
    ./mvnw spring-boot:run
-3. Visit: http://localhost:8080/api/eph/sample
+   
+4. Visit: http://localhost:8080/api/eph/stats/average-income
 
 ## 📁 Dataset Sources
 
