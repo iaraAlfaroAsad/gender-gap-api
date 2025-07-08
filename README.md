@@ -24,9 +24,9 @@ API REST built with Spring Boot to analyze gender-related statistics in Argentin
 ## 🚀 How to run
 
 1. Clone the repo  
-   git clone https://github.com/iaraAlfaro/gender-gap-api.git
+   git clone git@github.com:iaraAlfaroAsad/gender-gap-api.git
 
-2. Import as Maven project in IntelliJ or run:
+2. Import as Maven project in IntelliJ or run:  
    bash
    ./mvnw spring-boot:run
    
