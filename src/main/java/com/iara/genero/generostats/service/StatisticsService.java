@@ -9,6 +9,7 @@ import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 /**
  * Service layer containing business logic for statistical operations on EPH data.
@@ -47,7 +48,7 @@ public class StatisticsService {
         gapPercentage = BigDecimal.valueOf(Math.abs(gapPercentage))
                 .setScale(2, RoundingMode.HALF_UP)
                 .doubleValue();
-        return new GenderIncomeStats(femaleAvg, maleAvg, gapPercentage);
+        return new GenderIncomeStats(maleAvg, femaleAvg, gapPercentage);
     }
 
     /**
@@ -55,17 +56,12 @@ public class StatisticsService {
      * @return A map with gender as key and household count as value.
      */
     public Map<String, Long> getHouseholdCountByGender () {
-        // TODO: Implement this method to count households
-        return Map.of();
-    }
-
-    /**
-     * Calculetes the overall income gap percentage between genders.
-     * @return income gap as a percentage.
-     */
-    public double getIncomeGapPercentage () {
-        // TODO: Implement this method to calculate income gap percentage
-        return 0;
+        List<RawEPHRecord> records = ephDataHolder.getRecords();
+        return records.stream()
+                .filter(record -> record.getGender() != null)
+                .collect(Collectors.groupingBy(
+                        RawEPHRecord::getGender,
+                        Collectors.counting()));
     }
 
     /**
