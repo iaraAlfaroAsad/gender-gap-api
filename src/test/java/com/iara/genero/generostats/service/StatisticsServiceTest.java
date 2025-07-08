@@ -11,6 +11,7 @@ import org.mockito.Mockito;
 import java.util.List;
 import java.util.Map;
 
+import static com.iara.genero.generostats.util.TestUtilDataGenerator.getMockData;
 import static org.mockito.Mockito.when;
 
 public class StatisticsServiceTest {
@@ -53,11 +54,47 @@ public class StatisticsServiceTest {
         Assertions.assertEquals(2, countMap.get("Female"));
     }
 
-    List<RawEPHRecord> getMockData() {
-        return List.of(
-                new RawEPHRecord(2024, 4, "Male", 300000.0, "Gran Buenos Aires"),
-                new RawEPHRecord(2024, 4, "Female", 255000.0, "Gran Buenos Aires"),
-                new RawEPHRecord(2024, 4, "Male", 450000.0, "Gran Buenos Aires"),
-                new RawEPHRecord(2024, 4, "Female", 400000.0, "Gran Buenos Aires"));
+    @Test
+    void testGetAverageIncomeByGender_withEmptyList() {
+        // Arrange
+        when(ephDataHolder.getRecords()).thenReturn(List.of());
+
+        // Act
+        GenderIncomeStats stats = statisticsService.getAverageIncomeByGender();
+
+        // Assert
+        Assertions.assertEquals(0.0, stats.getMaleAverage());
+        Assertions.assertEquals(0.0, stats.getFemaleAverage());
+        Assertions.assertEquals(0.0, stats.getGapPercentage(), 0.01);
+    }
+
+    @Test
+    void testGetAverageIncomeByGender_withNullIncomes() {
+        // Arrange
+        List<RawEPHRecord> mockData = List.of(
+                new RawEPHRecord(2024, 4, "Male", null, "Gran Buenos Aires"),
+                new RawEPHRecord(2024, 4, "Female", null, "Gran Buenos Aires")
+        );
+        when(ephDataHolder.getRecords()).thenReturn(mockData);
+
+        // Act
+        GenderIncomeStats stats = statisticsService.getAverageIncomeByGender();
+
+        // Assert
+        Assertions.assertEquals(0.0, stats.getMaleAverage());
+        Assertions.assertEquals(0.0, stats.getFemaleAverage());
+        Assertions.assertEquals(0.0, stats.getGapPercentage(), 0.01);
+    }
+
+    @Test
+    void testGetHouseholdCountByGender_withEmptyList() {
+        // Arrange
+        when(ephDataHolder.getRecords()).thenReturn(List.of());
+
+        // Act
+        Map<String, Long> countMap = statisticsService.getHouseholdCountByGender();
+
+        // Assert
+        Assertions.assertTrue(countMap.isEmpty());
     }
 }
