@@ -6,6 +6,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.Map;
+
 /**
  * REST controller for handling statistical queries related to EPH data.
  */
@@ -26,5 +28,14 @@ public class StatisticsController {
     @GetMapping("/average-income")
     public GenderIncomeStats getAverageIncome() {
         return statisticsService.getAverageIncomeByGender();
+    }
+
+    /**
+     * Returns the count of households grouped by gender.
+     * @return A map with the count of households
+     */
+    @GetMapping("/household-count")
+    public Map<String, Long> getHouseholdCountByGender() {
+        return statisticsService.getHouseholdCountByGender();
     }
 }
